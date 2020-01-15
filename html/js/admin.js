@@ -134,7 +134,11 @@ function logout(){
 }
 
 function login(){
-	$.post("login.php", {a:"login", username:username.val(), password:password.val()})
+	login(username.val(), password.val());
+}
+
+function login(username, password){
+	$.post("login.php", {a:"login", username: username, password: password})
 		.done(function(data){
 			if(data.response){
 				showLogin();
@@ -157,7 +161,7 @@ function showLogin(nocheck = false){
 	$.post("login.php", {a: "status"})
 		.done(function(data){
 			if (data.response == null){
-				$("#login-modal").modal('show');
+				login('guest', 'guest');
 			}
 			else {
 				usernameDisplay.html(data.response.username);
