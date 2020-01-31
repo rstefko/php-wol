@@ -28,8 +28,6 @@ function getServers(){
 			$("#serverlist").append(row);
 			thisServer.statusField = $("#serverlist tr:last td:nth-child(3)");
 		}
-		
-		pingAll();
 	});
 }
 
@@ -90,7 +88,6 @@ function wake(server) {
 	$.post("wake.php", {mac:server.mac, broadcast: server.broadcast})
 		.done(function(data){
 			bootbox.alert("Server woken");
-			ping(server);
 		})
 		.fail(function(data){
 			bootbox.alert("error:" + data.status);
