@@ -5,25 +5,25 @@ var serverName, mac, ip, id, broadcast, username, password, usernameDisplay, lev
 function getServers(){
 	$.post("servers.php", {action:"get"}).done(function(data) {
 		servers = data;
-		
+
 		$("#serverlist").html("");
 		for(var server in servers){
 			const thisServer = servers[server];
-			var row = $("<tr><td>" + thisServer.name + "</td><td>" + thisServer.ip + "</td><td></td><td></td></tr>");
+			var row = $("<tr><td>" + thisServer.name + "</td><td>" + thisServer.ip + "</td><td class=\"hidden-xs hidden-sm\"></td><td></td></tr>");
 			var col = $('<div class="btn-group"/>');
 			col.append('<a class="btn btn-primary"><i class="glyphicon glyphicon-off"></i> Wake Up</a>').children().click(function(){wake(thisServer);});
 			col.append($('<a class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Refresh</a>').click(function(){ping(thisServer);}));
-			
+
 			if(level > 1){
-				
+
 				var btngrp = $('<div class="btn-group"><a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a><ul class="dropdown-menu" role="menu"></ul></div>');
-			
+
 				btngrp.children("ul").append($('<li><a><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>').click(function(){edit(thisServer);}));
 				btngrp.children("ul").append($('<li><a><i class="glyphicon glyphicon-trash"></i> Remove</a></li>').click(function(){remove(thisServer);}));
-				
+
 				col.append(btngrp);
 			}
-			
+
 			row.children(':last').append(col);
 			$("#serverlist").append(row);
 			thisServer.statusField = $("#serverlist tr:last td:nth-child(3)");
@@ -97,7 +97,7 @@ function wake(server) {
 function ping(server){
 	server.statusField.html("Loading...");
 	server.statusField.css({color:"blue"});
-	
+
 	$.post("ping.php", {ip:server.ip})
 		.done(function(data){
 			if(data.response == "alive"){
@@ -180,6 +180,6 @@ window.onload = function(){
 	broadcast = $("#broadcast");
 	usernameDisplay = $('#username-display');
 	password = $('#password');
-	
+
 	showLogin();
 }
